@@ -4,7 +4,7 @@ metadata:
   name: whoami-deployment
   namespace: whoami-test-ns
 spec:
-  replicas: 3
+  replicas: 6
   selector:
     matchLabels:
       app: whoami-web
