@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: whoami-deployment
+  namespace: apache-test-ns
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: whoami-web
+  template:
+    metadata:
+      labels:
+        app: whoami-web
+    spec:
+      containers:
+      - name: whoami-app
+        image: traefik/whoami:latest
+        ports:
+        - containerPort: 80
+          hostPort: 0   # Ваш проверенный хак для запуска нескольких подов на одной ноде
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: whoami-service
+  namespace: apache-test-ns
+spec:
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+  selector:
+    app: whoami-web
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: whoami-ingress
+  namespace: apache-test-ns
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+  - host: apache.shturval-client-01.p-10-10-2-184.shturval.link  # Оставляем ваш рабочий домен для теста
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: whoami-service
+            port:
+              number: 80
