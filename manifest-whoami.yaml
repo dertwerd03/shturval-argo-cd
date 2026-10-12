@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: whoami-app
-        image: traefik/whoami:latest
+        image: traefik/whoami:v1.12.0
         ports:
         - containerPort: 80
           hostPort: 0
