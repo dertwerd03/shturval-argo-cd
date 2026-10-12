@@ -42,7 +42,7 @@ metadata:
     kubernetes.io/ingress.class: nginx
 spec:
   rules:
-  - host: apache.shturval-client-01.p-10-10-2-184.shturval.link  # Оставляем ваш рабочий домен для теста
+  - host: whoami.shturval-client-01.p-10-10-2-184.shturval.link  # Оставляем ваш рабочий домен для теста
     http:
       paths:
       - path: /
